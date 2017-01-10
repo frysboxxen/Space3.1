@@ -6,7 +6,7 @@ import java.util.*;
 
 public class spaceship{
 
-	double shipX, shipY, deltaX, deltaY, boostX, boostY, shipDegree, radie;
+	double shipX, shipY, deltaX, deltaY, boostX, boostY, shipDegree, radie, hpX, hpY;
 	int boostKey, Right, Left, Shoot;
 	double Xscale = 2500;
 	double Yscale = 1800;
@@ -25,7 +25,7 @@ public class spaceship{
 	double stoneX = Math.random()*Xscale;
 	double stoneY = Math.random()*Yscale;
 	double deltastoneX = (Math.random()*20)-10;
-	double deltastoneY = (Math.random()*20)-10;	
+	double deltastoneY = (Math.random()*20)-10;
 	
 	public void printShip(){
 		if(!hit){
@@ -57,8 +57,8 @@ public class spaceship{
 	}
 	
 	public void boost(){
-		boostX = 4 * Math.cos(Math.toRadians(shipDegree));
-		boostY = 4 * Math.sin(Math.toRadians(shipDegree));
+		boostX = 3 * Math.cos(Math.toRadians(shipDegree));
+		boostY = 3 * Math.sin(Math.toRadians(shipDegree));
 	}
 	
 	public void degree(){
@@ -97,8 +97,8 @@ public class spaceship{
 		}
 		for(int i = laserX.size(); i>0 ;i--){
 			if(laserX.get(i-1) < Xscale + 10 && laserX.get(i-1) > -10 && laserY.get(i-1) < Yscale +10 &&laserY.get(i-1) > -10){
-				laserX.add((laserX.get(i-1) + 200*(Math.cos(Math.toRadians(laserDegree.get(i-1))))));
-				laserY.add((laserY.get(i-1) + 200*(Math.sin(Math.toRadians(laserDegree.get(i-1))))));
+				laserX.add((laserX.get(i-1) + 200*(Math.cos(Math.toRadians(laserDegree.get(i-1)))))+(Math.random())*5);
+				laserY.add((laserY.get(i-1) + 200*(Math.sin(Math.toRadians(laserDegree.get(i-1)))))+(Math.random())*5);
 				laserDegree.add(laserDegree.get(i-1));
 			}
 			laserX.remove(i-1);
@@ -110,7 +110,7 @@ public class spaceship{
 	public void moveStones(){
 		stoneX = stoneX + deltastoneX;
 		stoneY = stoneY + deltastoneY;
-		if(!hit && laserhit<100){
+		if(!hit && laserhit>0){
 		StdDraw.picture(stoneX,stoneY,stonePNG);
 		}		
 	}
@@ -120,5 +120,11 @@ public class spaceship{
 		
 		if(stoneY > Yscale+radie) stoneY = -radie;
 		if(stoneY < -radie) stoneY = Yscale +radie;
+	}
+
+	public void hp(){
+		if(laserhit>0){
+			StdDraw.filledRectangle(hpX,hpY,Math.abs(laserhit)*12,20);
+		}
 	}
 }
